@@ -1,0 +1,202 @@
+\documentclass[final,1p,times]{elsarticle}
+
+% Packages
+\usepackage[hypertexnames=false]{hyperref}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm,mathrsfs}
+\usepackage{bbm,bm,mathtools,esint}
+\usepackage{exscale,relsize}
+\usepackage{amscd}
+\usepackage{scalerel}
+\usepackage{resizegather}
+\usepackage{subfig}
+\usepackage{tabularx}
+\usepackage{tabulary}
+\usepackage{rotating}
+\usepackage{etoolbox}
+\usepackage{empheq}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{tikz}
+\allowdisplaybreaks
+
+% User-defined commands
+\newcommand{\E}{|\hspace{-0.2mm}|\hspace{-0.2mm}|}
+\newcommand{\leftE}{\left|\hspace{-0.2mm}\left|\hspace{-0.2mm}\left|}
+\newcommand{\rightE}{\right|\hspace{-0.2mm}\right|\hspace{-0.2mm}\right|}
+\DeclareMathOperator{\diag}{diag}
+%
+\newcommand{\bLambda}{\boldsymbol{\Lambda}}
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bPsi}{\boldsymbol{\Psi}}
+\newcommand{\bpi}{\boldsymbol{\pi}}
+\newcommand{\brho}{\boldsymbol{\rho}}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bzeta}{\boldsymbol{\zeta}}
+\newcommand{\bvphi}{\boldsymbol{\varphi}}
+\newcommand{\wbM}{\widehat{\bold{M}}}
+\newcommand{\wbK}{\widehat{\bold{K}}}
+\newcommand{\wbC}{\widehat{\bold{C}}}
+\newcommand{\wbA}{\widetilde{\bold{A}}}
+\newcommand{\wbf}{\widetilde{\bold{f}}}
+\newcommand{\wbu}{\widetilde{\bold{u}}}
+%
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+
+
+\begin{document}
+\begin{frontmatter}
+
+\title{Derivative of Piola mapping}
+
+\author[1]{Abdullah Abdulhaque\corref{cor1}}	\ead{abdullah.abdulhaque@ntnu.no}
+\affiliation[1]{
+	organization={Department of Mathematical Sciences, Norwegian University of Science and Technology},
+	city={Trondheim},
+	country={Norway}}
+	
+\begin{abstract}
+We present the derivatives of the Piola mapping.
+\end{abstract}
+
+\clearpage
+
+\end{frontmatter}
+
+
+
+\section{First-order derivatives}\noindent
+If we have a mapping $(\xi,\eta)\to(x,y)$, then its Jacobian is defined as
+\begin{equation}
+J = \begin{bmatrix} x_{\xi} & x_{\eta} \\ y_{\xi} & y_{\eta} \end{bmatrix}
+\qquad,\qquad |J| = x_{\xi}y_{\eta}-x_{\eta}y_{\xi}
+\end{equation}
+From the general inversion formula, we get
+\begin{equation}
+J^{-1} = \begin{bmatrix} \xi_x & \xi_y \\ \eta_x & \eta_y \end{bmatrix} = 
+\frac{1}{|J|}\begin{bmatrix} y_{\eta} & -x_{\eta} \\ -y_{\xi} & x_{\xi} \end{bmatrix}
+\end{equation}
+From the chain rule, we have an universal formula for the total derivative:
+\begin{equation}
+f_x = f_{\xi}\xi_x + f_{\eta}\eta_x \qquad,\qquad f_y = f_{\xi}\xi_y + f_{\eta}\eta_y
+\end{equation}
+The Piola mapping is defined as $J/|J|$. Its first-order derivatives become
+\begin{subequations}
+\begin{align}
+&\frac{\partial}{\partial x}\left[\frac{1}{|J|}J\right] = -\frac{|J|_x}{|J|^2}J+\frac{1}{|J|}J_x \\
+&\frac{\partial}{\partial y}\left[\frac{1}{|J|}J\right] = -\frac{|J|_y}{|J|^2}J+\frac{1}{|J|}J_y
+\end{align}
+\end{subequations}
+Further computations yield two similar formulas:
+\begin{subequations}
+\begin{align}
+&|J|_x = \xi_x\widetilde{J}_1+\eta_x\widetilde{J}_2 \\ 
+&|J|_y = \xi_y\widetilde{J}_1+\eta_y\widetilde{J}_2
+\end{align}
+\end{subequations}
+\clearpage\noindent
+In this setting, the auxiliary functions are
+\begin{subequations}
+\begin{align}
+&\widetilde{J}_1 = x_{\xi\xi}y_{\eta}+x_{\xi}y_{\xi\eta}-x_{\xi\eta}y_{\xi}-x_{\eta}y_{\xi\xi} \\
+&\widetilde{J}_2 = x_{\xi\eta}y_{\eta}+x_{\xi}y_{\eta\eta}-x_{\eta\eta}y_{\xi}-x_{\eta}y_{\xi\eta}
+\end{align}
+\end{subequations}
+Likewise, we get the following matrix derivatives:
+\begin{subequations}
+\begin{align}
+&J_x = \xi_x\begin{bmatrix} x_{\xi\xi} & x_{\xi\eta} \\ y_{\xi\xi} & y_{\xi\eta} \end{bmatrix} + \eta_x\begin{bmatrix} x_{\xi\eta} & x_{\eta\eta} \\ y_{\xi\eta} & y_{\eta\eta} \end{bmatrix} \\
+&J_y = \xi_y\begin{bmatrix} x_{\xi\xi} & x_{\xi\eta} \\ y_{\xi\xi} & y_{\xi\eta} \end{bmatrix} + \eta_y\begin{bmatrix} x_{\xi\eta} & x_{\eta\eta} \\ y_{\xi\eta} & y_{\eta\eta} \end{bmatrix}
+\end{align}
+\end{subequations}
+Imagine now that we have a vector function on the form
+\begin{equation*}
+\begin{bmatrix} u \\ v \end{bmatrix} = \frac{1}{|J|}J\begin{bmatrix} U \\ V \end{bmatrix}
+\end{equation*}
+By using the product rule, we obtain
+\begin{subequations}
+\begin{align}
+&\begin{bmatrix} u \\ v \end{bmatrix}_x = \left(-\frac{|J|_x}{|J|^2}J+\frac{1}{|J|}J_x\right)\begin{bmatrix} U \\ V \end{bmatrix} + \frac{1}{|J|}J\begin{bmatrix} U_{\xi}\xi_x+U_{\eta}\eta_x \\ V_{\xi}\xi_x+V_{\eta}\eta_x \end{bmatrix} \\
+&\begin{bmatrix} u \\ v \end{bmatrix}_y = \left(-\frac{|J|_y}{|J|^2}J+\frac{1}{|J|}J_y\right)\begin{bmatrix} U \\ V \end{bmatrix} + \frac{1}{|J|}J\begin{bmatrix} U_{\xi}\xi_y+U_{\eta}\eta_y \\ V_{\xi}\xi_y+V_{\eta}\eta_y \end{bmatrix}
+\end{align}
+\end{subequations}
+
+
+\section{Second-order derivatives}\noindent
+From the double product rule, we have 
+\begin{subequations}
+\begin{align}
+&\left[\frac{1}{|J|}J\right]_{xx} = \left[\frac{1}{|J|}\right]_{xx}J+2\left[\frac{1}{|J|}\right]_x J_x+\frac{1}{|J|}J_{xx} \\
+&\left[\frac{1}{|J|}J\right]_{yy} = \left[\frac{1}{|J|}\right]_{yy}J+2\left[\frac{1}{|J|}\right]_y J_y+\frac{1}{|J|}J_{yy}
+\end{align}
+\end{subequations}
+Applying the same rule on $1/|J|$ yields
+\begin{subequations}
+\begin{align}
+&\left[\frac{1}{|J|}\right]_{xx} = -\frac{|J|_{xx}}{|J|^2}+\frac{|J|_x^2}{|J|^3} \\
+&\left[\frac{1}{|J|}\right]_{yy} = -\frac{|J|_{yy}}{|J|^2}+\frac{|J|_y^2}{|J|^3}
+\end{align}
+\end{subequations}
+\clearpage\noindent
+As we see from these formulas, the real objective is finding $|J|_{xx}$, $|J|_{yy}$, $J_{xx}$ and $J_{yy}$. We start with $J_{xx}$ and use the total derivative rule:
+\begin{align*}
+J_{xx}	&= \xi_{xx}\begin{bmatrix} x_{\xi\xi} & x_{\xi\eta} \\ y_{\xi\xi} & y_{\xi\eta} \end{bmatrix}_x + \eta_{xx}\begin{bmatrix} x_{\xi\eta} & x_{\eta\eta} \\ y_{\xi\eta} & y_{\eta\eta} \end{bmatrix}_x \\
+		&= \xi_{xx}\begin{bmatrix} x_{\xi\xi\xi}\xi_x+x_{\xi\xi\eta}\eta_x & x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x \\ y_{\xi\xi\xi}\xi_x+y_{\xi\xi\eta}\eta_x & y_{\xi\xi\eta}\xi_x+y_{\xi\eta\eta}\eta_x \end{bmatrix} + \eta_{xx}\begin{bmatrix} x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x & x_{\xi\eta\eta}\xi_x+x_{\eta\eta\eta}\eta_x \\ y_{\xi\xi\xi}\xi_x+y_{\xi\xi\eta}\eta_x  & y_{\xi\eta\eta}\xi_x+y_{\eta\eta\eta}\eta_x \end{bmatrix}
+\end{align*}
+Summarizing, we have arrived at
+\begin{subequations}
+\begin{align}
+J_{xx}	&= \xi_{xx}\begin{bmatrix} x_{\xi\xi\xi}\xi_x+x_{\xi\xi\eta}\eta_x & x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x \\ y_{\xi\xi\xi}\xi_x+y_{\xi\xi\eta}\eta_x & y_{\xi\xi\eta}\xi_x+y_{\xi\eta\eta}\eta_x \end{bmatrix} + \eta_{xx}\begin{bmatrix} x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x & x_{\xi\eta\eta}\xi_x+x_{\eta\eta\eta}\eta_x \\ y_{\xi\xi\xi}\xi_x+y_{\xi\xi\eta}\eta_x  & y_{\xi\eta\eta}\xi_x+y_{\eta\eta\eta}\eta_x \end{bmatrix} \\
+J_{yy}	&= \xi_{yy}\begin{bmatrix} x_{\xi\xi\xi}\xi_y+x_{\xi\xi\eta}\eta_y & x_{\xi\xi\eta}\xi_y+x_{\xi\eta\eta}\eta_y \\ y_{\xi\xi\xi}\xi_y+y_{\xi\xi\eta}\eta_y & y_{\xi\xi\eta}\xi_y+y_{\xi\eta\eta}\eta_y \end{bmatrix} + \eta_{xx}\begin{bmatrix} x_{\xi\xi\eta}\xi_y+x_{\xi\eta\eta}\eta_y & x_{\xi\eta\eta}\xi_y+x_{\eta\eta\eta}\eta_y \\ y_{\xi\xi\xi}\xi_y+y_{\xi\xi\eta}\eta_y  & y_{\xi\eta\eta}\xi_y+y_{\eta\eta\eta}\eta_y \end{bmatrix}
+\end{align}
+\end{subequations}
+The product rule implies that 
+\begin{align*}
+|J|_{xx}	&= \xi_{xx}\widetilde{J}_1+\xi_x(\partial_x\widetilde{J}_1)+\eta_{xx}\widetilde{J}_2+\eta_x(\partial_x\widetilde{J}_2) \\ 
+|J|_{yy}	&= \xi_{yy}\widetilde{J}_1+\xi_y(\partial_y\widetilde{J}_1)+\eta_{yy}\widetilde{J}_2+\eta_y(\partial_y\widetilde{J}_2)
+\end{align*}
+The real challenge is differentiating $\widetilde{J}_1$ and $\widetilde{J}_2$. This requires that we must introduce 16 auxiliary functions in total:
+\begin{align*}
+k_{1x}	&= (x_{\xi\xi\xi}\xi_x+x_{\xi\xi\eta}\eta_x)y_{\eta}+x_{\xi\xi}(y_{\xi\eta}\xi_x+y_{\eta\eta}\eta_x) \\ 
+k_{2x}	&= (x_{\xi\xi}\xi_x+x_{\xi\eta}\eta_x)y_{\xi\eta}+x_{\xi}(y_{\xi\xi\eta}\xi_x+y_{\xi\eta\eta}\eta_x) \\
+k_{3x}	&= (x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x)y_{\xi}+x_{\xi\eta}(y_{\xi\xi}\xi_x+y_{\xi\eta}\eta_x) \\
+k_{4x}	&= (x_{\xi\eta}\eta_x+x_{\eta\eta}\eta_x)y_{\xi\xi}+x_{\eta}(y_{\xi\xi\xi}\xi_x+y_{\xi\xi\eta}\eta_x) \\
+k_{5x}	&= (x_{\xi\xi\eta}\xi_x+x_{\xi\eta\eta}\eta_x)y_{\eta}+x_{\xi\eta}(y_{\xi\eta}\xi_x+y_{\eta\eta}\eta_x) \\
+k_{6x}	&= (x_{\xi\xi}\xi_x+x_{\xi\eta}\eta_x)y_{\eta\eta}+x_{\xi}(y_{\xi\eta\eta}\xi_x+y_{\eta\eta\eta}\eta_x) \\
+k_{7x}	&= (x_{\xi\eta\eta}\xi_x+x_{\eta\eta\eta}\eta_x)y_{\xi}+x_{\eta\eta}(y_{\xi\xi}\xi_x+y_{\xi\eta}\eta_x) \\
+k_{8x}	&= (x_{\xi\eta}\eta_x+x_{\eta\eta}\eta_x)y_{\xi\eta}+x_{\eta}(y_{\xi\xi\eta}\xi_x+y_{\xi\eta\eta}\eta_x) \\
+k_{1y}	&= (x_{\xi\xi\xi}\xi_y+x_{\xi\xi\eta}\eta_y)y_{\eta}+x_{\xi\xi}(y_{\xi\eta}\xi_y+y_{\eta\eta}\eta_y) \\
+k_{2y}	&= (x_{\xi\xi}\xi_y+x_{\xi\eta}\eta_y)y_{\xi\eta}+x_{\xi}(y_{\xi\xi\eta}\xi_y+y_{\xi\eta\eta}\eta_y) \\
+k_{3y}	&= (x_{\xi\xi\eta}\xi_y+x_{\xi\eta\eta}\eta_y)y_{\xi}+x_{\xi\eta}(y_{\xi\xi}\xi_y+y_{\xi\eta}\eta_y) \\
+k_{4y}	&= (x_{\xi\eta}\eta_y+x_{\eta\eta}\eta_y)y_{\xi\xi}+x_{\eta}(y_{\xi\xi\xi}\xi_y+y_{\xi\xi\eta}\eta_y) \\
+k_{5y}	&= (x_{\xi\xi\eta}\xi_y+x_{\xi\eta\eta}\eta_y)y_{\eta}+x_{\xi\eta}(y_{\xi\eta}\xi_y+y_{\eta\eta}\eta_y) \\
+k_{6y}	&= (x_{\xi\xi}\xi_y+x_{\xi\eta}\eta_y)y_{\eta\eta}+x_{\xi}(y_{\xi\eta\eta}\xi_y+y_{\eta\eta\eta}\eta_y) \\
+k_{7y}	&= (x_{\xi\eta\eta}\xi_y+x_{\eta\eta\eta}\eta_y)y_{\xi}+x_{\eta\eta}(y_{\xi\xi}\xi_y+y_{\xi\eta}\eta_y) \\
+k_{8y}	&= (x_{\xi\eta}\eta_y+x_{\eta\eta}\eta_y)y_{\xi\eta}+x_{\eta}(y_{\xi\xi\eta}\xi_y+y_{\xi\eta\eta}\eta_y) 
+\end{align*}
+\clearpage\noindent
+Thus, we can define the four essential derivatives as
+\begin{subequations}
+\begin{align}
+\partial_x\widetilde{J}_1	&= k_{1x}+k_{2x}-k_{3x}-k_{4x} \\
+\partial_y\widetilde{J}_1	&= k_{1y}+k_{2y}-k_{3y}-k_{4y} \\
+\partial_x\widetilde{J}_2	&= k_{5x}+k_{6x}-k_{7x}-k_{8x} \\
+\partial_y\widetilde{J}_2	&= k_{5y}+k_{6y}-k_{7y}-k_{8y}
+\end{align}
+\end{subequations}
+A similar easier derivation is valid for $U$:
+\begin{align*}
+U_{xx}	&= \begin{bmatrix} (U_{\xi\xi}\xi_x+U_{\xi\eta}\eta_x)\xi_x+U_{\xi}\xi_{xx}+(U_{\xi\eta}\xi_x+U_{\eta\eta}\eta_x)\eta_x+U_{\eta}\eta_{xx} \\ (V_{\xi\xi}\xi_x+V_{\xi\eta}\eta_x)\xi_x+V_{\xi}\xi_{xx}+(V_{\xi\eta}\xi_x+V_{\eta\eta}\eta_x)\eta_x+V_{\eta}\eta_{xx} \end{bmatrix} \\
+		&= \begin{bmatrix} U_{\xi\xi}\xi_x+U_{\xi\eta}\eta_x & U_{\xi\eta}\xi_x+U_{\eta\eta}\eta_x \\ V_{\xi\xi}\xi_x+V_{\xi\eta}\eta_x & V_{\xi\eta}\xi_x+V_{\eta\eta}\eta_x \end{bmatrix}\begin{bmatrix}\xi_x \\ \eta_x \end{bmatrix} + \begin{bmatrix} U_{\xi} & U_{\eta} \\ V_{\xi} & V_{\eta} \end{bmatrix}\begin{bmatrix}\xi_{xx} \\ \eta_{xx} \end{bmatrix}
+\end{align*}
+Hence, the double-derivatives of $U$ and $V$ are given by
+\begin{subequations}
+\begin{align}
+\begin{bmatrix} U \\ V \end{bmatrix}_{xx}	&= \begin{bmatrix} U_{\xi\xi}\xi_x+U_{\xi\eta}\eta_x & U_{\xi\eta}\xi_x+U_{\eta\eta}\eta_x \\ V_{\xi\xi}\xi_x+V_{\xi\eta}\eta_x & V_{\xi\eta}\xi_x+V_{\eta\eta}\eta_x \end{bmatrix}\begin{bmatrix}\xi_x \\ \eta_x \end{bmatrix} + \begin{bmatrix} U_{\xi} & U_{\eta} \\ V_{\xi} & V_{\eta} \end{bmatrix}\begin{bmatrix}\xi_{xx} \\ \eta_{xx} \end{bmatrix} \\
+\begin{bmatrix} U \\ V \end{bmatrix}_{yy}	&= \begin{bmatrix} U_{\xi\xi}\xi_y+U_{\xi\eta}\eta_y & U_{\xi\eta}\xi_y+U_{\eta\eta}\eta_y \\ V_{\xi\xi}\xi_y+V_{\xi\eta}\eta_y & V_{\xi\eta}\xi_y+V_{\eta\eta}\eta_y \end{bmatrix}\begin{bmatrix}\xi_y \\ \eta_y \end{bmatrix} + \begin{bmatrix} U_{\xi} & U_{\eta} \\ V_{\xi} & V_{\eta} \end{bmatrix}\begin{bmatrix}\xi_{yy} \\ \eta_{yy} \end{bmatrix}
+\end{align}
+\end{subequations}
+\end{document}
