@@ -105,26 +105,35 @@ for i=1:numel(xi)
 
     u_parametric = [Nu(:,i)' * U' * Nv(:,j);
                     Nu(:,i)' * V' * Nv(:,j)];
-    u_physical   = 1/map.detJ * map.J * u_parametric;
+    u_parametric_diff = [dNu(:,i)' * U' * Nv(:,j);
+                            Nu(:,i)' * U' * dNv(:,j);
+                            dNu(:,i)' * V' * Nv(:,j);
+                            Nu(:,i)' * V' * dNv(:,j)];
+    u_physical = 1/map.detJ * map.J * u_parametric;
+    [u_physical,u_physical_derivative] = piolaTransform(map,u_parametric,u_parametric_diff);
     u(i,j) = u_physical(1);
     v(i,j) = u_physical(2);
+    dudx(i,j) = u_physical_derivative(1);
+    dvdx(i,j) = u_physical_derivative(2);
+    dudy(i,j) = u_physical_derivative(3);
+    dvdy(i,j) = u_physical_derivative(4);
   end
 end
 figure;
   sgtitle('PIOLA mapping')
-  subplot(1,3,1); hold on;
+  subplot(3,3,1); hold on;
     plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
     plot(xu',yu', 'k-', 'LineWidth', 2);
     quiver(x,y,u,v);
     title('Vector basisfunction [u,v]');
-  subplot(1,3,2);
+  subplot(3,3,4);
     surf(x,y,zeros(size(x)),u); hold on;
     view(2);
     colorbar;
     plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
     plot(xu',yu', 'k-', 'LineWidth', 2);
     title('First component u');
-  subplot(1,3,3);
+  subplot(3,3,7);
     surf(x,y,zeros(size(x)),v); hold on;
     view(2);
     colorbar;

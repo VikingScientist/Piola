@@ -17,5 +17,4 @@ Jy = invJ(1,2)*[H(1,1,1),H(1,1,2);H(2,1,1),H(2,1,2)]+invJ(2,2)*[H(1,1,2),H(1,2,2
 detJx = invJ(1,1)*Jt1+invJ(2,1)*Jt2;
 detJy = invJ(1,2)*Jt1+invJ(2,2)*Jt2;
 
-
 map = struct('x',x,'J',J,'H',H,'detJ',detJ,'invJ',invJ,'Jx',Jx,'Jy',Jy,'detJx',detJx,'detJy',detJy);
