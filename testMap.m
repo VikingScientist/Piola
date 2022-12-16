@@ -48,7 +48,7 @@ figure; hold on;
 
 % For now we are going to look at the following function (a single basisfunction):
 U = [0 0 0 0 0;
-     0 0 1 0 0;
+     0 0 0 0 0;
      0 0 0 0 0;
      0 0 0 0 0;
      0 0 0 0 0;
@@ -57,13 +57,17 @@ V = [0 0 0 0 0;
      0 0 0 0 0;
      0 0 0 0 0;
      0 0 0 0 0;
-     0 0 0 0 0;
+     0 0 0 1 0;
      0 0 0 0 0];
 
 
 % Display function using REGULAR mapping (no Piola)
 u  = Nu' * U' * Nv; % evaluating vector on the specified points
 v  = Nu' * V' * Nv;
+dudx = zeros(size(u));
+dudy = zeros(size(u));
+dvdx = zeros(size(v));
+dvdy = zeros(size(v));
 figure;
   sgtitle('REGULAR mapping')
   subplot(1,3,1); hold on;
@@ -105,29 +109,94 @@ for i=1:numel(xi)
 
     u_parametric = [Nu(:,i)' * U' * Nv(:,j);
                     Nu(:,i)' * V' * Nv(:,j)];
-    u_physical   = 1/map.detJ * map.J * u_parametric;
+    u_parametric_diff = [dNu(:,i)' * U' * Nv(:,j);
+                            dNu(:,i)' * V' * Nv(:,j);
+                            Nu(:,i)' * U' * dNv(:,j);
+                            Nu(:,i)' * V' * dNv(:,j)];
+    u_physical = 1/map.detJ * map.J * u_parametric;
+    [u_physical,u_physical_derivative] = piolaTransform(map,u_parametric,u_parametric_diff);
     u(i,j) = u_physical(1);
     v(i,j) = u_physical(2);
+    dudx(i,j) = u_physical_derivative(1);
+    dvdx(i,j) = u_physical_derivative(2);
+    dudy(i,j) = u_physical_derivative(3);
+    dvdy(i,j) = u_physical_derivative(4);
   end
 end
 figure;
   sgtitle('PIOLA mapping')
-  subplot(1,3,1); hold on;
-    plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
-    plot(xu',yu', 'k-', 'LineWidth', 2);
-    quiver(x,y,u,v);
-    title('Vector basisfunction [u,v]');
-  subplot(1,3,2);
-    surf(x,y,zeros(size(x)),u); hold on;
+%   subplot(3,3,1); hold on;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     quiver(x,y,u,v);
+%     title('Vector basisfunction [u,v]');
+G = {u,dudx,dudy,v,dvdx,dvdy};
+T = {'First component u','x-derivative of first component u','y-derivative of first component u',...
+    'Second component v','x-derivative of second component v','y-derivative of second component v'};
+Gmax = zeros(1,6);
+Gmin = zeros(1,6);
+for i = 1:6
+    Gmax(i) = max(max(G{i}));
+    Gmin(i) = min(min(G{i}));
+end
+Gmax = max(Gmax);
+Gmin = min(Gmin);
+w = winter;
+a = autumn;
+cm = [flip(w); a];
+L = max(abs(Gmax),abs(Gmin));
+for i = 1:6
+    subplot(2,3,i);
+    surf(x,y,zeros(size(x)),G{i}); hold on;
     view(2);
     colorbar;
-    plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
+    if ~((i == 1)||(i == 4))
+        clim([-1.4,1.4]);
+        colormap(cm)
+    end
+    plot(xv, yv,  'k-', 'LineWidth', 2);
     plot(xu',yu', 'k-', 'LineWidth', 2);
-    title('First component u');
-  subplot(1,3,3);
-    surf(x,y,zeros(size(x)),v); hold on;
-    view(2);
-    colorbar;
-    plot(xv, yv,  'k-', 'LineWidth', 2);      % element lines, fat black
-    plot(xu',yu', 'k-', 'LineWidth', 2);
-    title('Second component v');
+    title(T{i});
+end
+%   subplot(2,3,1);
+%     surf(x,y,zeros(size(x)),u); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('First component u');
+%   subplot(2,3,2);
+%     surf(x,y,zeros(size(x)),dudx); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('x-derivative of first component u');
+%   subplot(2,3,3);
+%     surf(x,y,zeros(size(x)),dudy); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('y-derivative of first component u');
+%   subplot(2,3,4);
+%     surf(x,y,zeros(size(x)),v); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('Second component v');
+%   subplot(2,3,5);
+%     surf(x,y,zeros(size(x)),dvdx); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('x-derivative of second component v');
+%   subplot(2,3,6);
+%     surf(x,y,zeros(size(x)),dvdy); hold on;
+%     view(2);
+%     colorbar;
+%     plot(xv, yv,  'k-', 'LineWidth', 2);
+%     plot(xu',yu', 'k-', 'LineWidth', 2);
+%     title('y-derivative of second component v');
